@@ -51,6 +51,8 @@ to quickly create a Cobra application.`,
 			switch payload {
 			case "hello":
 				err = m.Send(fmt.Sprintf("Hello I'm Kbot %s!", appVersion))
+			case "count":
+				err = m.Send(fmt.Sprint(countTimeToNewYear()))
 			}
 			return err
 		})
@@ -58,6 +60,26 @@ to quickly create a Cobra application.`,
 		kbot.Start()
 
 	},
+}
+
+func countTimeToNewYear() string {
+
+	now := time.Now()
+
+	currentYear := now.Year()
+
+	newYearsEve := time.Date(currentYear, 12, 31, 23, 59, 59, 0, time.UTC)
+
+	duration := newYearsEve.Sub(now)
+
+	days := int(duration.Hours() / 24)
+	hours := int(duration.Hours()) % 24
+	minutes := int(duration.Minutes()) % 60
+	seconds := int(duration.Seconds()) % 60
+
+	countdownMessage := fmt.Sprintf("Time remaining until New Year's Eve: %d days, %d hours, %d minutes, %d seconds", days, hours, minutes, seconds)
+
+	return countdownMessage
 }
 
 func init() {
